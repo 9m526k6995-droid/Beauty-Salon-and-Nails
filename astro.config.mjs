@@ -12,7 +12,7 @@ import tailwindcss from '@tailwindcss/vite';
 // Später für eine eigene Domain einfach ändern, z. B. 'https://www-beispiel-nagelstudio.de'
 // (ohne Schrägstrich am Ende).
 // ---------------------------------------------------------------------------
-const SITE = 'https://beauty-salon-and-nails.workers.dev';
+const SITE = 'https://beauty-salon-and-nails.kw698p7brp.workers.dev';
 
 export default defineConfig({
   site: SITE,
