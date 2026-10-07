@@ -1,0 +1,141 @@
+---
+import { site } from '../config/site';
+import { navigation } from '../data/content';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  /** true = immer heller Header (z. B. Impressum), false = transparent über dem dunklen Hero */
+  solid?: boolean;
+}
+const { solid = false } = Astro.props;
+---
+
+<header
+  id="site-header"
+  data-solid={solid ? 'true' : 'false'}
+  data-scrolled={solid ? 'true' : 'false'}
+  class="group fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 data-[scrolled=true]:bg-cream/92 data-[scrolled=true]:shadow-[0_1px_0_rgba(194,161,95,0.35)] data-[scrolled=true]:backdrop-blur-md"
+>
+  <div class="container-page flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
+    <a href="/" class="relative flex shrink-0 items-center" aria-label={`${site.name} – zur Startseite`}>
+      <span class="block transition-opacity duration-500 group-data-[scrolled=true]:opacity-0">
+        <Logo variant="gold" height={52} eager class="h-11 w-auto lg:h-[3.25rem]" />
+      </span>
+      <span
+        class="absolute inset-0 block opacity-0 transition-opacity duration-500 group-data-[scrolled=true]:opacity-100"
+        aria-hidden="true"
+      >
+        <Logo variant="dunkelgold" height={52} eager class="h-11 w-auto lg:h-[3.25rem]" />
+      </span>
+    </a>
+
+    <nav aria-label="Hauptnavigation" class="hidden lg:block">
+      <ul class="flex items-center gap-8 text-[0.95rem] tracking-wide">
+        {
+          navigation.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="relative py-2 text-cream/85 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:text-gold-light hover:after:scale-x-100 group-data-[scrolled=true]:text-ink group-data-[scrolled=true]:hover:text-gold-dark"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href={site.instagram.href}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex size-11 items-center justify-center rounded-full text-gold transition-colors hover:bg-gold/10 group-data-[scrolled=true]:text-gold-dark"
+        aria-label="Beauty Salon & Nails auf Instagram (öffnet neues Fenster)"
+      >
+        <Icon name="instagram" size={22} />
+      </a>
+      <a href="/#kontakt" class="btn btn-gold hidden min-h-11 px-5 py-2.5 text-sm sm:inline-flex">
+        <Icon name="calendar" size={18} />
+        Termin anfragen
+      </a>
+      <button
+        type="button"
+        id="menu-toggle"
+        class="inline-flex size-11 items-center justify-center rounded-full text-cream transition-colors hover:bg-gold/10 group-data-[scrolled=true]:text-ink lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="sr-only">Menü öffnen</span>
+        <Icon name="menu" size={24} class="menu-icon-open" />
+        <Icon name="close" size={24} class="menu-icon-close hidden" />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-gold/30 bg-cream lg:hidden"
+  >
+    <nav aria-label="Mobile Navigation" class="container-page py-6">
+      <ul class="flex flex-col">
+        {
+          navigation.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="block border-b border-ink/8 py-4 font-serif text-2xl text-ink transition-colors hover:text-gold-dark"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/#kontakt" class="btn btn-gold mt-6 w-full">
+        <Icon name="calendar" size={18} />
+        Termin anfragen
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (header) {
+    const solid = header.dataset.solid === 'true';
+    let menuOpen = false;
+    const update = () => {
+      const scrolled = solid || menuOpen || window.scrollY > 24;
+      header.dataset.scrolled = scrolled ? 'true' : 'false';
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+
+    const setMenu = (open: boolean) => {
+      menuOpen = open;
+      if (!toggle || !menu) return;
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.classList.toggle('hidden', !open);
+      toggle.querySelector('.menu-icon-open')?.classList.toggle('hidden', open);
+      toggle.querySelector('.menu-icon-close')?.classList.toggle('hidden', !open);
+      const label = toggle.querySelector('.sr-only');
+      if (label) label.textContent = open ? 'Menü schließen' : 'Menü öffnen';
+      update();
+    };
+
+    toggle?.addEventListener('click', () => setMenu(!menuOpen));
+    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuOpen) {
+        setMenu(false);
+        toggle?.focus();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,56 @@
+---
+/**
+ * Logo des Studios.
+ * Varianten: 'gold' (für dunkle Flächen) und 'dunkelgold' (für helle Flächen).
+ *
+ * Wechsel auf Vektor-Logo: einfach `logo-gold.svg` bzw. `logo-dunkelgold.svg`
+ * in `src/assets/bilder/logo/` ablegen – sie werden dann automatisch statt der
+ * PNG-Dateien verwendet. Sonst ist nichts zu ändern.
+ */
+import { getImage } from 'astro:assets';
+import { site } from '../config/site';
+import { getAsset, hasAsset } from '../lib/images';
+
+interface Props {
+  variant?: 'gold' | 'dunkelgold';
+  /** Anzeigehöhe in CSS-Pixeln */
+  height: number;
+  class?: string;
+  eager?: boolean;
+}
+
+const { variant = 'gold', height, class: className = '', eager = false } = Astro.props;
+
+const svgName = `logo-${variant}.svg`;
+const pngName = `logo-${variant}-transparent.png`;
+const useSvg = hasAsset('logo', svgName);
+const source = getAsset('logo', useSvg ? svgName : pngName);
+
+// Anzeigebreite aus dem Seitenverhältnis – nie größer als die Quelle
+const displayHeight = Math.min(height, source.height);
+const displayWidth = Math.round((source.width / source.height) * displayHeight);
+
+let src = source.src;
+let srcset: string | undefined;
+if (!useSvg) {
+  const w1 = Math.min(displayWidth, source.width);
+  const w2 = Math.min(displayWidth * 2, source.width);
+  const [one, two] = await Promise.all([
+    getImage({ src: source, width: w1, format: 'webp' }),
+    getImage({ src: source, width: w2, format: 'webp' }),
+  ]);
+  src = one.src;
+  srcset = `${one.src} 1x, ${two.src} 2x`;
+}
+---
+
+<img
+  src={src}
+  srcset={srcset}
+  width={displayWidth}
+  height={displayHeight}
+  alt={`${site.name} Logo`}
+  class={className}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+/>

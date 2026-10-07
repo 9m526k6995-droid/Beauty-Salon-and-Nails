@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #faf7f2;
+  --color-cream-deep: #f3ede4;
+  --color-night: #141a22;
+  --color-night-soft: #1c2430;
+  --color-gold: #c2a15f;
+  --color-gold-light: #d9c08a;
+  --color-gold-dark: #7d6436;
+  --color-teal: #0e606b;
+  --color-teal-dark: #0a4a53;
+  --color-rose: #ebd3c8;
+  --color-rose-soft: #f5e8e1;
+  --color-ink: #1f1f1f;
+  --color-muted: #5b5650;
+
+  --font-serif: 'Cormorant Garamond Variable', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Jost Variable', 'Jost', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+  }
+
+  ::selection {
+    background: var(--color-rose);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 font-sans text-xs font-medium tracking-[0.28em] uppercase;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply inline-block h-px w-8 bg-current opacity-70;
+  }
+
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-6 py-3 text-[0.95rem] font-medium tracking-wide transition-all duration-300;
+    transition-timing-function: var(--ease-soft);
+  }
+  .btn-gold {
+    @apply bg-gold text-night hover:bg-gold-light;
+  }
+  .btn-teal {
+    @apply bg-teal text-white hover:bg-teal-dark;
+  }
+  .btn-outline-light {
+    @apply border border-gold/60 text-cream hover:border-gold hover:bg-gold/10;
+  }
+  .btn-outline-dark {
+    @apply border border-ink/25 text-ink hover:border-gold-dark hover:text-gold-dark;
+  }
+
+  /* Feine Gold-Linie als Trenner */
+  .gold-rule {
+    @apply mx-auto block h-px w-16 bg-gold;
+  }
+
+  /* Editorial-Bildrahmen: Passepartout + feine Goldlinie */
+  .frame {
+    @apply relative rounded-md bg-white p-2 shadow-[0_18px_40px_-24px_rgba(20,26,34,0.45)] ring-1 ring-gold/25;
+  }
+  .frame-dark {
+    @apply relative rounded-md bg-night-soft p-2 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] ring-1 ring-gold/40;
+  }
+
+  /* Einheitlicher, dezenter Look über alle Fotos */
+  .photo-tone {
+    filter: saturate(1.03) contrast(1.02);
+  }
+  .photo-warm {
+    @apply relative overflow-hidden;
+  }
+  .photo-warm::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background: #e9c9a6;
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+  }
+
+  /* Gelbe Markierung für Platzhalter in Impressum/Datenschutz */
+  .todo {
+    @apply rounded bg-yellow-200 px-1.5 py-0.5 font-medium text-ink;
+  }
+
+  .prose-legal h2 {
+    @apply mt-12 mb-4 text-3xl text-ink;
+  }
+  .prose-legal h3 {
+    @apply mt-8 mb-2 font-sans text-lg font-semibold;
+  }
+  .prose-legal p,
+  .prose-legal ul {
+    @apply mb-4 text-muted;
+  }
+  .prose-legal ul {
+    @apply list-disc pl-6;
+  }
+  .prose-legal a {
+    @apply text-teal underline underline-offset-4 hover:text-gold-dark;
+  }
+}
+
+/* Scroll-Animationen: nur wenn JS aktiv ist und Bewegung erwünscht ist */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.9s var(--ease-soft),
+      transform 0.9s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

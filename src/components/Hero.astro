@@ -1,0 +1,112 @@
+---
+import { site } from '../config/site';
+import { hero } from '../data/content';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import OpenStatus from './OpenStatus.astro';
+import Photo from './Photo.astro';
+import Stars from './Stars.astro';
+---
+
+<section
+  id="start"
+  class="relative isolate overflow-hidden bg-night pt-28 pb-20 text-cream sm:pt-32 lg:pt-36 lg:pb-28"
+  aria-labelledby="hero-title"
+>
+  <!-- Abendlicht: warmes Gold-Glühen wie das hinterleuchtete Schild -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute -top-40 right-[-10%] size-[42rem] rounded-full bg-gold/12 blur-[120px]"></div>
+    <div class="absolute bottom-[-30%] left-[-15%] size-[34rem] rounded-full bg-teal/25 blur-[120px]"></div>
+    <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+    <div class="absolute top-0 bottom-0 left-[8%] hidden w-px bg-gradient-to-b from-transparent via-gold/15 to-transparent lg:block"></div>
+  </div>
+
+  <div class="container-page grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
+    <div class="max-w-xl">
+      <Logo variant="gold" height={150} eager class="mb-8 hidden h-28 w-auto sm:block lg:h-[9.5rem]" />
+      <p class="eyebrow text-gold">{hero.eyebrow}</p>
+      <h1 id="hero-title" class="mt-5 text-[2.75rem] leading-[1.02] text-cream sm:text-6xl lg:text-[4.4rem]">
+        {hero.title}
+      </h1>
+      <p class="mt-6 max-w-lg text-lg leading-relaxed text-cream/75">{hero.text}</p>
+
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <a href={site.phone.href} class="btn btn-gold">
+          <Icon name="phone" size={19} />
+          Anrufen
+        </a>
+        <a href={site.whatsapp.href} target="_blank" rel="noopener" class="btn btn-outline-light">
+          <Icon name="whatsapp" size={19} />
+          WhatsApp schreiben
+        </a>
+      </div>
+
+      <dl class="mt-10 grid gap-4 border-t border-gold/20 pt-6 text-sm text-cream/70 sm:grid-cols-2">
+        <div class="flex items-center gap-3">
+          <dt class="sr-only">Öffnungszeiten</dt>
+          <Icon name="clock" size={18} class="shrink-0 text-gold" />
+          <dd><OpenStatus /></dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="sr-only">Google-Bewertung</dt>
+          <dd class="flex items-center gap-2.5">
+            <Stars value={site.rating.value} size={15} class="text-gold" />
+            <span>
+              {site.rating.value.toLocaleString('de-DE')} · {site.rating.count} Google-Bewertungen
+            </span>
+          </dd>
+        </div>
+        <div class="flex items-center gap-3 sm:col-span-2">
+          <dt class="sr-only">Adresse</dt>
+          <Icon name="pin" size={18} class="shrink-0 text-gold" />
+          <dd>{site.address.street} · {site.address.zip} {site.address.city}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Bildkomposition: gerahmtes Hochformat + zwei versetzte Detailkarten -->
+    <div class="relative mx-auto w-full max-w-[25rem] pb-10 lg:mr-0 lg:max-w-[27rem]">
+      <div class="frame-dark">
+        <Photo
+          folder="studio"
+          file="studio-leuchtschild.jpg"
+          alt="Hinterleuchtetes Logo-Schild von Beauty Salon & Nails an der dunklen Studiowand"
+          sizes="(min-width: 1024px) 416px, (min-width: 640px) 384px, calc(100vw - 56px)"
+          widths={[400, 600, 832]}
+          position="50% 30%"
+          eager
+          priority
+          class="aspect-[4/5] overflow-hidden rounded"
+        />
+      </div>
+      <div
+        class="frame-dark absolute bottom-0 -left-4 w-[38%] -rotate-3 sm:-left-12"
+      >
+        <Photo
+          folder="galerie"
+          file="stiletto-gold-blume.jpg"
+          alt="Stiletto-Nägel mit goldenen Linien und 3D-Blüte"
+          sizes="(min-width: 640px) 170px, 38vw"
+          widths={[200, 340]}
+          position="40% 50%"
+          eager
+          class="aspect-[4/5] overflow-hidden rounded-sm"
+        />
+      </div>
+      <div
+        class="frame-dark absolute -top-6 -right-3 w-[34%] rotate-3 sm:-right-10"
+      >
+        <Photo
+          folder="galerie"
+          file="french-weisse-blumen-gold.jpg"
+          alt="French-Nägel mit weißen 3D-Blumen und Gold"
+          sizes="(min-width: 640px) 150px, 34vw"
+          widths={[200, 300]}
+          position="60% 50%"
+          eager
+          class="aspect-[4/5] overflow-hidden rounded-sm"
+        />
+      </div>
+    </div>
+  </div>
+</section>

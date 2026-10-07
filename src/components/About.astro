@@ -1,0 +1,65 @@
+---
+import { about } from '../data/content';
+import Photo from './Photo.astro';
+---
+
+<section id="ueber-mich" class="relative overflow-hidden bg-night py-20 text-cream lg:py-28" aria-labelledby="about-title">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute top-1/3 -left-40 size-[36rem] rounded-full bg-gold/10 blur-[120px]"></div>
+  </div>
+
+  <div class="container-page relative grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+    <div class="mx-auto w-full max-w-[28rem] lg:mx-0" data-reveal>
+      <div class="frame-dark">
+        <Photo
+          folder="studio"
+          file="inhaberin-huong-pham.jpg"
+          alt="Inhaberin Huong Pham im weißen Kittel bei der Arbeit am Nageltisch, im Hintergrund das Regal mit goldverschlossenen Gel-Flaschen"
+          sizes="(min-width: 1024px) 432px, (min-width: 640px) 432px, calc(100vw - 56px)"
+          widths={[420, 640, 900]}
+          position="50% 40%"
+          class="aspect-[4/5] overflow-hidden rounded"
+        />
+      </div>
+    </div>
+
+    <div>
+      <div data-reveal>
+        <p class="eyebrow text-gold">Über mich</p>
+        <h2 id="about-title" class="mt-4 text-4xl text-cream sm:text-5xl">{about.greeting}</h2>
+        <div class="mt-6 space-y-4 text-lg leading-relaxed text-cream/75">
+          {about.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="mt-8 font-serif text-3xl text-gold italic">{about.signature}</p>
+        <p class="text-sm tracking-wide text-cream/60">Inhaberin, Beauty Salon & Nails</p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-2 gap-4 sm:gap-5">
+        <figure class="frame-dark" data-reveal style="--reveal-delay:100ms">
+          <Photo
+            folder="studio"
+            file="studio-arbeitsplatz.jpg"
+            alt="Blick ins Studio: Arbeitsplatz mit Leuchtschild und Lackwand"
+            sizes="(min-width: 1024px) 250px, 45vw"
+            widths={[240, 360, 500]}
+            position="50% 40%"
+            class="aspect-[4/5] overflow-hidden rounded-sm"
+          />
+          <figcaption class="px-1 pt-2 text-xs tracking-wide text-cream/60">Einblick ins Studio</figcaption>
+        </figure>
+        <figure class="frame-dark" data-reveal style="--reveal-delay:200ms">
+          <Photo
+            folder="studio"
+            file="studio-lackregal-gold.jpg"
+            alt="Gel-Flaschen mit goldenen Verschlüssen im beleuchteten Regal"
+            sizes="(min-width: 1024px) 250px, 45vw"
+            widths={[240, 360, 500]}
+            position="50% 35%"
+            class="aspect-[4/5] overflow-hidden rounded-sm"
+          />
+          <figcaption class="px-1 pt-2 text-xs tracking-wide text-cream/60">Hunderte Farben im Regal</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

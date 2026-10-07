@@ -1,0 +1,60 @@
+---
+/**
+ * Einheitliche Bildausgabe: AVIF + WebP, srcset/sizes, Lazy Loading,
+ * feste Maße gegen Layout-Sprünge und verschwommener Platzhalter.
+ * Das Bild füllt seinen Rahmen (object-fit: cover); der Rahmen bestimmt das Format.
+ */
+import { Picture } from 'astro:assets';
+import { blurPlaceholder, getAsset, widthsFor } from '../lib/images';
+
+interface Props {
+  folder: string;
+  file: string;
+  alt: string;
+  /** srcset-Breiten (werden auf die Originalbreite begrenzt) */
+  widths?: number[];
+  sizes: string;
+  position?: string;
+  eager?: boolean;
+  /** Wichtigstes Bild über dem Falz: fetchpriority=high */
+  priority?: boolean;
+  class?: string;
+  imgClass?: string;
+}
+
+const {
+  folder,
+  file,
+  alt,
+  widths = [320, 480, 640, 900],
+  sizes,
+  position = 'center',
+  eager = false,
+  priority = false,
+  class: className = '',
+  imgClass = '',
+} = Astro.props;
+
+const image = getAsset(folder, file);
+const placeholder = await blurPlaceholder(folder, file);
+const finalWidths = widthsFor(image, widths);
+---
+
+<div
+  class:list={['photo-warm bg-rose-soft bg-cover bg-center', className]}
+  style={`background-image:url(${placeholder})`}
+>
+  <Picture
+    src={image}
+    alt={alt}
+    formats={['avif', 'webp']}
+    widths={finalWidths}
+    sizes={sizes}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={priority ? 'high' : undefined}
+    class:list={['photo-tone h-full w-full object-cover', imgClass]}
+    style={`object-position:${position}`}
+    pictureAttributes={{ class: 'block h-full w-full' }}
+  />
+</div>

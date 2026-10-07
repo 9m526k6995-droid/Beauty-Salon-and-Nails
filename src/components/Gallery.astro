@@ -1,0 +1,222 @@
+---
+import { getImage } from 'astro:assets';
+import { site } from '../config/site';
+import { gallery, galleryCategories } from '../data/gallery';
+import { getAsset } from '../lib/images';
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import SectionHeading from './SectionHeading.astro';
+
+// Für die Lightbox: Bild in Originalgröße (nie hochskaliert) als WebP
+const items = await Promise.all(
+  gallery.map(async (item) => {
+    const img = getAsset('galerie', item.file);
+    const full = await getImage({ src: img, width: img.width, format: 'webp', quality: 86 });
+    return { ...item, full: full.src, w: img.width, h: img.height };
+  }),
+);
+
+const usedCategories = new Set(gallery.map((g) => g.category));
+const chips = galleryCategories.filter((c) => c.id === 'alle' || usedCategories.has(c.id));
+---
+
+<section id="galerie" class="py-20 lg:py-28" aria-labelledby="galerie-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Unsere Arbeiten" title="Nail Art mit Liebe zum Detail" id="galerie-title">
+      French in vielen Varianten, Blumen in 3D, Gold- und Chrome-Linien, Ombré und Saison-Designs – ein Auszug aus dem
+      Studio.
+    </SectionHeading>
+
+    <div class="mb-10 flex flex-wrap justify-center gap-2.5" role="group" aria-label="Galerie filtern" data-reveal>
+      {
+        chips.map((c, i) => (
+          <button
+            type="button"
+            class="gallery-chip rounded-full border border-ink/15 px-5 py-2 text-sm tracking-wide text-ink transition-colors hover:border-gold-dark aria-pressed:border-night aria-pressed:bg-night aria-pressed:text-cream"
+            data-filter={c.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="sr-only" aria-live="polite" id="gallery-status"></p>
+
+    <ul class="mx-auto grid max-w-[60rem] grid-flow-dense grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4" id="gallery-grid">
+      {
+        items.map((item, i) => (
+          <li
+            class:list={['gallery-item', item.featured && 'col-span-2 row-span-2']}
+            data-category={item.category}
+            data-reveal
+            style={`--reveal-delay:${(i % 4) * 70}ms`}
+          >
+            <button
+              type="button"
+              class="group/item block h-full w-full cursor-zoom-in rounded-md bg-white p-1.5 text-left shadow-[0_16px_36px_-26px_rgba(20,26,34,0.5)] ring-1 ring-gold/20 transition-[box-shadow,ring-color] duration-500 hover:ring-gold sm:p-2"
+              data-full={item.full}
+              data-w={item.w}
+              data-h={item.h}
+              data-alt={item.alt}
+              aria-label={`Bild vergrößern: ${item.alt}`}
+            >
+              <span class="block h-full overflow-hidden rounded-sm">
+                <Photo
+                  folder="galerie"
+                  file={item.file}
+                  alt={item.alt}
+                  position={item.position}
+                  widths={item.featured ? [360, 560, 760, 920] : [200, 300, 450, 600]}
+                  sizes={
+                    item.featured
+                      ? '(min-width: 1024px) 460px, (min-width: 768px) 62vw, 94vw'
+                      : '(min-width: 1024px) 220px, (min-width: 768px) 30vw, 46vw'
+                  }
+                  class:list={[
+                    'transition-transform duration-700 ease-[var(--ease-soft)] group-hover/item:scale-[1.03]',
+                    item.featured ? 'aspect-[4/5] h-full' : 'aspect-[4/5]',
+                  ]}
+                />
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 text-center" data-reveal>
+      <a href={site.instagram.href} target="_blank" rel="noopener" class="btn btn-outline-dark">
+        <Icon name="instagram" size={19} />
+        Mehr auf Instagram
+        <span class="text-muted">{site.instagram.handle}</span>
+      </a>
+    </div>
+  </div>
+
+  <dialog
+    id="lightbox"
+    class="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 text-cream backdrop:bg-night/95 backdrop:backdrop-blur-sm"
+    aria-label="Bildansicht"
+  >
+    <div class="flex h-full w-full flex-col items-center justify-center gap-4 px-4 py-16 sm:px-20">
+      <figure class="flex max-h-full flex-col items-center">
+        <img id="lightbox-img" alt="" class="max-h-[78dvh] w-auto rounded-sm object-contain shadow-2xl ring-1 ring-gold/40" />
+        <figcaption id="lightbox-caption" class="mt-4 max-w-xl text-center text-sm text-cream/80"></figcaption>
+      </figure>
+    </div>
+    <button
+      type="button"
+      data-lb="close"
+      class="absolute top-4 right-4 inline-flex size-12 items-center justify-center rounded-full border border-gold/40 text-cream transition-colors hover:bg-gold/15"
+      aria-label="Schließen"
+    >
+      <Icon name="close" size={22} />
+    </button>
+    <button
+      type="button"
+      data-lb="prev"
+      class="absolute top-1/2 left-2 inline-flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-night/60 text-cream transition-colors hover:bg-gold/15 sm:left-6"
+      aria-label="Vorheriges Bild"
+    >
+      <Icon name="arrow-left" size={22} />
+    </button>
+    <button
+      type="button"
+      data-lb="next"
+      class="absolute top-1/2 right-2 inline-flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-night/60 text-cream transition-colors hover:bg-gold/15 sm:right-6"
+      aria-label="Nächstes Bild"
+    >
+      <Icon name="arrow-right" size={22} />
+    </button>
+  </dialog>
+</section>
+
+<script>
+  const grid = document.getElementById('gallery-grid');
+  const chips = document.querySelectorAll<HTMLButtonElement>('.gallery-chip');
+  const status = document.getElementById('gallery-status');
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lbCaption = document.getElementById('lightbox-caption');
+
+  // ---- Filter ----
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter ?? 'alle';
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      let count = 0;
+      grid?.querySelectorAll<HTMLElement>('.gallery-item').forEach((li) => {
+        const show = filter === 'alle' || li.dataset.category === filter;
+        li.hidden = !show;
+        if (show) {
+          count++;
+          li.classList.add('is-visible');
+        }
+      });
+      if (status) status.textContent = `${count} Bilder angezeigt`;
+    });
+  });
+
+  // ---- Lightbox ----
+  const visibleButtons = () =>
+    Array.from(grid?.querySelectorAll<HTMLButtonElement>('.gallery-item:not([hidden]) button') ?? []);
+  let current = 0;
+  let opener: HTMLElement | null = null;
+
+  const show = (index: number) => {
+    const list = visibleButtons();
+    if (!list.length || !lbImg) return;
+    current = (index + list.length) % list.length;
+    const btn = list[current];
+    const w = Number(btn.dataset.w);
+    lbImg.src = btn.dataset.full ?? '';
+    lbImg.width = w;
+    lbImg.height = Number(btn.dataset.h);
+    lbImg.alt = btn.dataset.alt ?? '';
+    // Höchstens Originalgröße, nie hochskalieren
+    lbImg.style.maxWidth = `min(100%, ${w}px)`;
+    if (lbCaption) lbCaption.textContent = btn.dataset.alt ?? '';
+  };
+
+  grid?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-full]');
+    if (!btn || !dialog) return;
+    opener = btn;
+    show(visibleButtons().indexOf(btn));
+    dialog.showModal();
+    document.documentElement.style.overflow = 'hidden';
+  });
+
+  dialog?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const action = target.closest<HTMLElement>('[data-lb]')?.dataset.lb;
+    if (action === 'close') dialog.close();
+    else if (action === 'prev') show(current - 1);
+    else if (action === 'next') show(current + 1);
+    else if (target === dialog || target.tagName === 'DIV') dialog.close();
+  });
+
+  dialog?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  dialog?.addEventListener('close', () => {
+    document.documentElement.style.overflow = '';
+    opener?.focus();
+  });
+
+  // Wischgesten auf dem Handy
+  let touchX = 0;
+  dialog?.addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), { passive: true });
+  dialog?.addEventListener(
+    'touchend',
+    (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(dx > 0 ? current - 1 : current + 1);
+    },
+    { passive: true },
+  );
+</script>

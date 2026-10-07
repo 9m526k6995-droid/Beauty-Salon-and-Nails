@@ -1,0 +1,12 @@
+// Cloudflare Workers – Konfiguration für eine rein statische Website
+// (Workers mit Static Assets, der von Cloudflare empfohlene Weg).
+// Build: `npm run build` → Ordner `dist` wird hochgeladen.
+{
+  "name": "beauty-salon-and-nails",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
