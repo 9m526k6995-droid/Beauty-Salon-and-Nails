@@ -33,6 +33,9 @@ export const site = {
     href: 'https://wa.me/491606397158?text=Hallo%2C%20ich%20m%C3%B6chte%20gerne%20einen%20Termin%20vereinbaren.',
   },
 
+  /** E-Mail fürs Impressum / Datenschutz */
+  email: 'hau-sch@web.de',
+
   instagram: {
     handle: '@beauty_salon_nail_passau',
     href: 'https://www.instagram.com/beauty_salon_nail_passau/',

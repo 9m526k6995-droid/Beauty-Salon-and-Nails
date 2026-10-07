@@ -14,7 +14,7 @@ import { site } from '../config/site';
     {site.name}<br />
     {site.address.street}, {site.address.zip} {site.address.city}<br />
     Telefon: <a href={site.phone.href}>{site.phone.display}</a><br />
-    E-Mail: <span class="todo">bitte ergänzen</span>
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
   </p>
 
   <h2>2. Das Wichtigste in Kürze</h2>
@@ -38,7 +38,6 @@ import { site } from '../config/site';
     Website). Mit Cloudflare besteht ein Vertrag zur Auftragsverarbeitung. Cloudflare ist unter dem EU-US Data Privacy
     Framework zertifiziert; ergänzend gelten die EU-Standardvertragsklauseln. Weitere Informationen:
     <a href="https://www.cloudflare.com/de-de/privacypolicy/" target="_blank" rel="noopener">Datenschutzerklärung von Cloudflare</a>.
-    <span class="todo">bitte prüfen: Auftragsverarbeitungsvertrag im Cloudflare-Konto akzeptiert?</span>
   </p>
 
   <h2>4. Kontaktaufnahme per Telefon, WhatsApp oder Instagram</h2>
@@ -82,7 +81,6 @@ import { site } from '../config/site';
   <h2>7. Webanalyse</h2>
   <p>
     Derzeit wird keine Webanalyse eingesetzt.
-    <span class="todo">Falls später Cloudflare Web Analytics (ohne Cookies) aktiviert wird, hier einen Abschnitt dazu ergänzen.</span>
   </p>
 
   <h2>8. Deine Rechte</h2>
@@ -102,5 +100,5 @@ import { site } from '../config/site';
   </p>
 
   <h2>9. Aktualität</h2>
-  <p>Stand: <span class="todo">Datum bitte ergänzen</span></p>
+  <p>Stand: Oktober 2026</p>
 </LegalPage>

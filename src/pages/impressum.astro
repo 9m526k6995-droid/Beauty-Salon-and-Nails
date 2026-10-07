@@ -20,20 +20,10 @@ import { site } from '../config/site';
   <h2>Kontakt</h2>
   <p>
     Telefon: <a href={site.phone.href}>{site.phone.display}</a><br />
-    E-Mail: <span class="todo">bitte ergänzen (E-Mail-Adresse ist Pflicht)</span>
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
   </p>
 
-  <h2>Umsatzsteuer</h2>
-  <p>
-    Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
-    <span class="todo">bitte ergänzen – oder diesen Abschnitt löschen, falls keine USt-IdNr. vorhanden ist (z. B. Kleinunternehmerregelung)</span>
-  </p>
 
-  <h2>Berufsbezeichnung und Aufsicht</h2>
-  <p>
-    <span class="todo">bitte prüfen: ggf. zuständige Kammer (z. B. Handwerkskammer Niederbayern-Oberpfalz) bzw.
-    Eintragung in die Handwerksrolle angeben – sonst Abschnitt löschen</span>
-  </p>
 
   <h2>Verbraucherstreitbeilegung</h2>
   <p>

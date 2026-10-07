@@ -9,20 +9,11 @@ interface Props {
 const { title, description, heading } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} solidHeader>
+<BaseLayout title={title} description={description} solidHeader noindex>
   <section class="pt-32 pb-20 lg:pt-40 lg:pb-28">
     <div class="container-page max-w-3xl">
       <p class="eyebrow text-gold-dark">Rechtliches</p>
       <h1 class="mt-4 text-5xl text-ink sm:text-6xl">{heading}</h1>
-      <div
-        class="mt-8 rounded-md border border-yellow-300 bg-yellow-50 p-5 text-sm leading-relaxed text-ink"
-        role="note"
-      >
-        <strong>Hinweis zur Bearbeitung:</strong> Gelb markierte Stellen
-        <span class="todo">bitte ergänzen</span> – diese Angaben kann nur die Inhaberin machen. Den Text bitte vor
-        Veröffentlichung prüfen (lassen); er ist eine sorgfältig vorbereitete Vorlage, aber keine Rechtsberatung. Diesen
-        Hinweis danach in <code>src/components/LegalPage.astro</code> entfernen.
-      </div>
       <div class="prose-legal mt-10">
         <slot />
       </div>
