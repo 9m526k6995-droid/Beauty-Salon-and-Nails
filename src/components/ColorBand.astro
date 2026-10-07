@@ -1,0 +1,44 @@
+---
+import { colorCards } from '../data/colors';
+import Photo from './Photo.astro';
+---
+
+<section class="overflow-hidden bg-rose-soft py-16 lg:py-20" aria-labelledby="farben-title">
+  <div class="container-page grid items-center gap-10 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-14">
+    <div data-reveal>
+      <p class="eyebrow text-gold-dark">Farbauswahl</p>
+      <h2 id="farben-title" class="mt-4 text-4xl text-ink sm:text-[2.75rem]">Hunderte Farben – von Nude bis Glitzer</h2>
+      <p class="mt-4 text-muted">
+        Jelly, Glitzer, Cat-Eye, kräftige Rottöne, Grün und Blau oder zartes Nude: Such Dir Deine Farbe direkt an der
+        Farbkarte aus.
+      </p>
+    </div>
+
+    <ul
+      class="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0"
+      aria-label="Farbkarten im Studio"
+      tabindex="0"
+    >
+      {
+        colorCards.map((card, i) => (
+          <li class="w-[62%] shrink-0 snap-start sm:w-[40%] lg:w-auto" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <figure class="frame">
+              <Photo
+                folder="farben"
+                file={card.file}
+                alt={card.alt}
+                sizes="(min-width: 1024px) 190px, (min-width: 640px) 40vw, 62vw"
+                widths={[240, 380, 520]}
+                position={card.position}
+                class="aspect-[4/5] overflow-hidden rounded-sm"
+              />
+              <figcaption class="px-1 pt-2.5 pb-1 text-center text-xs font-medium tracking-[0.2em] text-gold-dark uppercase">
+                {card.label}
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

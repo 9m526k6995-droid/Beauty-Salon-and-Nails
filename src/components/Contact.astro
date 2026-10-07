@@ -1,0 +1,88 @@
+---
+import { site } from '../config/site';
+import Icon from './Icon.astro';
+import { Picture } from 'astro:assets';
+import { getAsset } from '../lib/images';
+
+const logoRund = getAsset('logo', 'logo-rund.png');
+---
+
+<section id="kontakt" class="relative overflow-hidden py-20 lg:py-28" aria-labelledby="kontakt-title">
+  <div class="container-page">
+    <div class="relative overflow-hidden rounded-lg bg-night px-6 py-14 text-center text-cream sm:px-12 lg:px-20 lg:py-20">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -top-32 left-1/2 size-[30rem] -translate-x-1/2 rounded-full bg-gold/15 blur-[110px]"></div>
+        <div class="absolute inset-3 rounded-md border border-gold/25 sm:inset-4"></div>
+      </div>
+
+      <div class="relative" data-reveal>
+        <Picture
+          src={logoRund}
+          alt=""
+          formats={['avif', 'webp']}
+          widths={[112, 224]}
+          sizes="112px"
+          width={112}
+          height={112}
+          loading="lazy"
+          class="mx-auto mb-8 size-28 rounded-full ring-1 ring-gold/50"
+        />
+        <p class="eyebrow text-gold">Termin anfragen</p>
+        <h2 id="kontakt-title" class="mx-auto mt-4 max-w-2xl text-4xl text-cream sm:text-5xl">
+          Ich freu mich auf Dich!
+        </h2>
+        <p class="mx-auto mt-5 max-w-xl text-lg text-cream/75">
+          Ruf einfach an oder schreib mir auf WhatsApp – gern mit einem Foto Deines Wunsch-Designs. Kurzfristige Termine
+          sind oft möglich.
+        </p>
+
+        <ul class="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
+          <li>
+            <a
+              href={site.phone.href}
+              class="group flex h-full flex-col items-center gap-3 rounded-md border border-gold/40 bg-night-soft/80 px-5 py-7 transition-colors hover:border-gold hover:bg-gold/10"
+            >
+              <span class="inline-flex size-14 items-center justify-center rounded-full bg-gold text-night">
+                <Icon name="phone" size={24} />
+              </span>
+              <span class="font-serif text-2xl">Anrufen</span>
+              <span class="text-sm text-cream/70">{site.phone.display}</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.whatsapp.href}
+              target="_blank"
+              rel="noopener"
+              class="group flex h-full flex-col items-center gap-3 rounded-md border border-gold/40 bg-night-soft/80 px-5 py-7 transition-colors hover:border-gold hover:bg-gold/10"
+            >
+              <span class="inline-flex size-14 items-center justify-center rounded-full bg-teal text-cream">
+                <Icon name="whatsapp" size={24} />
+              </span>
+              <span class="font-serif text-2xl">WhatsApp</span>
+              <span class="text-sm text-cream/70">Nachricht schreiben</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.instagram.href}
+              target="_blank"
+              rel="noopener"
+              class="group flex h-full flex-col items-center gap-3 rounded-md border border-gold/40 bg-night-soft/80 px-5 py-7 transition-colors hover:border-gold hover:bg-gold/10"
+            >
+              <span class="inline-flex size-14 items-center justify-center rounded-full border border-gold text-gold">
+                <Icon name="instagram" size={24} />
+              </span>
+              <span class="font-serif text-2xl">Instagram</span>
+              <span class="text-sm break-all text-cream/70">{site.instagram.handle}</span>
+            </a>
+          </li>
+        </ul>
+
+        <p class="mt-10 text-sm text-cream/60">
+          {site.openingHoursShort} · {site.address.street}, {site.address.zip} {site.address.city}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

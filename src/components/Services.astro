@@ -1,0 +1,82 @@
+---
+import { site } from '../config/site';
+import { formatPrice, serviceCategories } from '../data/services';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const anyPriceMissing = serviceCategories.some((c) => c.services.some((s) => s.price === undefined));
+---
+
+<section id="leistungen" class="bg-cream-deep/60 py-20 lg:py-28" aria-labelledby="leistungen-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Leistungen & Preise" title="Für Hände, Füße und Wimpern" id="leistungen-title">
+      Jede Farbe und jedes Design ist möglich. Gern berate ich Dich auch zu aktuellen Trends.
+    </SectionHeading>
+
+    <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+      {
+        serviceCategories.map((cat, i) => (
+          <article
+            id={`leistung-${cat.id}`}
+            class:list={[
+              'flex flex-col rounded-md border border-gold/30 bg-cream p-7 shadow-[0_20px_50px_-35px_rgba(20,26,34,0.4)] sm:p-9',
+              i === 0 && 'lg:row-span-2',
+            ]}
+            data-reveal
+            style={`--reveal-delay:${i * 100}ms`}
+          >
+            <div class="flex items-center gap-4">
+              <span class="inline-flex size-12 items-center justify-center rounded-full bg-teal text-cream">
+                <Icon name={cat.icon} size={24} />
+              </span>
+              <h3 class="text-[2rem] text-ink">{cat.title}</h3>
+            </div>
+            <p class="mt-4 text-[0.98rem] text-muted">{cat.intro}</p>
+            <span class="my-6 block h-px w-12 bg-gold" aria-hidden="true" />
+
+            <ul class="flex flex-col divide-y divide-ink/8">
+              {cat.services.map((s) => (
+                <li class="flex items-baseline justify-between gap-4 py-3.5">
+                  <div>
+                    <p class="font-medium text-ink">{s.name}</p>
+                    {s.description && <p class="mt-0.5 text-sm leading-snug text-muted">{s.description}</p>}
+                    {s.duration && <p class="mt-1 text-xs text-muted">{s.duration}</p>}
+                  </div>
+                  <p
+                    class:list={[
+                      'shrink-0 text-right whitespace-nowrap',
+                      s.price === undefined ? 'text-sm text-gold-dark italic' : 'font-serif text-xl text-ink',
+                    ]}
+                  >
+                    {formatPrice(s.price)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 flex flex-col items-center gap-5 text-center" data-reveal>
+      {
+        anyPriceMissing && (
+          <p class="max-w-xl text-muted">
+            Die Preise hängen von Länge, Form und Design ab. Schreib mir kurz, was Du Dir wünschst – am liebsten mit Foto
+            – und ich sage Dir den Preis.
+          </p>
+        )
+      }
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a href={site.whatsapp.href} target="_blank" rel="noopener" class="btn btn-teal">
+          <Icon name="whatsapp" size={19} />
+          Preis per WhatsApp anfragen
+        </a>
+        <a href={site.phone.href} class="btn btn-outline-dark">
+          <Icon name="phone" size={19} />
+          {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

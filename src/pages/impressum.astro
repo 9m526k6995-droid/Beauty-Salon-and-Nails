@@ -1,0 +1,54 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site } from '../config/site';
+---
+
+<LegalPage
+  title="Impressum | Beauty Salon & Nails Passau"
+  description="Impressum von Beauty Salon & Nails, Nagelstudio in Passau – Inhaberin Huong Pham, Theresienstraße 32, 94032 Passau."
+  heading="Impressum"
+>
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    {site.owner}<br />
+    {site.name}<br />
+    {site.address.street}<br />
+    {`${site.address.zip} ${site.address.city}`}<br />
+    Deutschland
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: <a href={site.phone.href}>{site.phone.display}</a><br />
+    E-Mail: <span class="todo">bitte ergänzen (E-Mail-Adresse ist Pflicht)</span>
+  </p>
+
+  <h2>Umsatzsteuer</h2>
+  <p>
+    Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
+    <span class="todo">bitte ergänzen – oder diesen Abschnitt löschen, falls keine USt-IdNr. vorhanden ist (z. B. Kleinunternehmerregelung)</span>
+  </p>
+
+  <h2>Berufsbezeichnung und Aufsicht</h2>
+  <p>
+    <span class="todo">bitte prüfen: ggf. zuständige Kammer (z. B. Handwerkskammer Niederbayern-Oberpfalz) bzw.
+    Eintragung in die Handwerksrolle angeben – sonst Abschnitt löschen</span>
+  </p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>
+    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+    Verbraucherschlichtungsstelle teilzunehmen.
+  </p>
+
+  <h2>Haftung für Inhalte und Links</h2>
+  <p>
+    Die Inhalte dieser Website wurden mit großer Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität
+    der Inhalte können wir jedoch keine Gewähr übernehmen. Diese Website enthält Links zu externen Websites Dritter (z. B.
+    Instagram, WhatsApp, Google Maps), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten
+    ist stets der jeweilige Anbieter verantwortlich.
+  </p>
+
+  <h2>Bildnachweis</h2>
+  <p>Alle Fotos: {site.name}, {site.owner}.</p>
+</LegalPage>

@@ -1,0 +1,79 @@
+---
+/**
+ * Zeigt „Jetzt geöffnet / geschlossen“ (Zeitzone Europe/Berlin).
+ * Ohne JavaScript bleibt die statische Kurzform der Öffnungszeiten stehen.
+ */
+import { site } from '../config/site';
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['open-status inline-flex items-center gap-2', className]} data-hours={JSON.stringify(site.openingHours)}>
+  <span class="open-dot inline-block size-2 rounded-full bg-gold" aria-hidden="true"></span>
+  <span class="open-text">{site.openingHoursShort}</span>
+</span>
+
+<script>
+  type Day = { day: number; open?: string; close?: string; closed?: boolean };
+
+  function berlinNow() {
+    const parts = new Intl.DateTimeFormat('de-DE', {
+      timeZone: 'Europe/Berlin',
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
+    const map: Record<string, number> = { Mo: 1, Di: 2, Mi: 3, Do: 4, Fr: 5, Sa: 6, So: 7 };
+    const day = map[get('weekday').replace('.', '')] ?? 1;
+    const minutes = Number(get('hour')) * 60 + Number(get('minute'));
+    return { day, minutes };
+  }
+
+  const toMin = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  document.querySelectorAll<HTMLElement>('.open-status').forEach((el) => {
+    let hours: Day[] = [];
+    try {
+      hours = JSON.parse(el.dataset.hours ?? '[]');
+    } catch {
+      return;
+    }
+    const { day, minutes } = berlinNow();
+    const today = hours.find((d) => d.day === day);
+    const text = el.querySelector('.open-text');
+    const dot = el.querySelector('.open-dot');
+    if (!text || !dot) return;
+
+    if (today && !today.closed && today.open && today.close) {
+      const o = toMin(today.open);
+      const c = toMin(today.close);
+      if (minutes >= o && minutes < c) {
+        text.textContent = `Jetzt geöffnet · bis ${today.close} Uhr`;
+        dot.classList.add('bg-emerald-400');
+        return;
+      }
+      if (minutes < o) {
+        text.textContent = `Heute ab ${today.open} Uhr geöffnet`;
+        return;
+      }
+    }
+    // Nächsten Öffnungstag finden
+    for (let i = 1; i <= 7; i++) {
+      const next = hours.find((d) => d.day === ((day - 1 + i) % 7) + 1);
+      if (next && !next.closed && next.open) {
+        const names = ['', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+        const label = i === 1 ? 'morgen' : names[next.day];
+        text.textContent = `Gerade geschlossen · ${label} ab ${next.open} Uhr`;
+        return;
+      }
+    }
+  });
+</script>

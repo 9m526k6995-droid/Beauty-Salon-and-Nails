@@ -1,0 +1,28 @@
+---
+import About from '../components/About.astro';
+import Benefits from '../components/Benefits.astro';
+import ColorBand from '../components/ColorBand.astro';
+import Contact from '../components/Contact.astro';
+import Gallery from '../components/Gallery.astro';
+import Hero from '../components/Hero.astro';
+import Location from '../components/Location.astro';
+import Reviews from '../components/Reviews.astro';
+import Services from '../components/Services.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Nagelstudio Passau | Beauty Salon & Nails – Nageldesign & Wimpern"
+  description="Dein Nagelstudio in der Passauer Innenstadt: Nageldesign, Gel & Shellac, Maniküre, Pediküre und Wimpernverlängerung. Theresienstraße 32 · Mo–Sa 9–19 Uhr · Termin per Telefon oder WhatsApp."
+  schema
+>
+  <Hero />
+  <Benefits />
+  <ColorBand />
+  <Services />
+  <Gallery />
+  <About />
+  <Reviews />
+  <Location />
+  <Contact />
+</BaseLayout>

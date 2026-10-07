@@ -1,0 +1,21 @@
+---
+import { site } from '../config/site';
+import Icon from './Icon.astro';
+---
+
+<!-- Feste Aktionsleiste auf dem Handy -->
+<div
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-night/95 px-3 pt-2.5 backdrop-blur-md lg:hidden"
+  style="padding-bottom:max(0.625rem, env(safe-area-inset-bottom))"
+>
+  <div class="mx-auto grid max-w-md grid-cols-2 gap-2.5">
+    <a href={site.phone.href} class="btn btn-gold min-h-12 py-2.5">
+      <Icon name="phone" size={19} />
+      Anrufen
+    </a>
+    <a href={site.whatsapp.href} target="_blank" rel="noopener" class="btn btn-teal min-h-12 py-2.5">
+      <Icon name="whatsapp" size={19} />
+      WhatsApp
+    </a>
+  </div>
+</div>
