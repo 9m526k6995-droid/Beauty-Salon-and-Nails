@@ -1,6 +1,6 @@
 # Prompt für Claude Code – Website „Beauty Salon & Nails" Passau
 
-> Die Bilder liegen bereits im Repo unter `src/assets/bilder/`. Alles unterhalb der Linie in Claude Code einfügen. Platzhalter in [ECKIGEN KLAMMERN] vorher ausfüllen oder Claude Code fragen lassen.
+> Die Bilder liegen bereits im Repo unter `src/assets/bilder/`. Alles unterhalb der Linie in Claude Code einfügen. Alle Angaben sind ausgefüllt. Claude Code baut ohne Rückfragen.
 
 ---
 
@@ -10,13 +10,15 @@ Du bist ein erfahrener Webdesigner und Frontend-Entwickler. Baue eine hochwertig
 
 - **Name:** Beauty Salon & Nails (so steht es am Leuchtschild im Studio und im Logo; bei Google heißt der Eintrag „Beauty Salon & Nail", auf der Visitenkarte „Beauty & Nails Salon Passau" – auf der Website einheitlich „Beauty Salon & Nails" verwenden)
 - **Inhaberin:** Huong Pham (stellt sich auf Instagram persönlich vor: „Hallo ihr Lieben! Ich heiße Huong Pham und liebe es, eure Nägel zu …")
-- **Adresse:** [BESTÄTIGEN: Google sagt Theresienstraße **32**, die Visitenkarte von 2024 sagt Theresienstraße **21**], 94032 Passau (Innenstadt)
-- **Telefon:** Mobil +49 160 6397158 (Google) · Festnetz 0851/78410… [vollständige Nummer von der Visitenkarte ergänzen] · WhatsApp-Button auf die Mobilnummer: [JA/NEIN]
+- **Adresse:** Theresienstraße 32, 94032 Passau (Innenstadt). Die alte Visitenkarte zeigt „21“, das ist veraltet, **32 ist korrekt**.
+- **Telefon:** +49 160 6397158 (einzige Nummer auf der Website, kein Festnetz)
+- **WhatsApp:** JA, Button mit Link `https://wa.me/491606397158?text=Hallo%2C%20ich%20m%C3%B6chte%20gerne%20einen%20Termin%20vereinbaren.` (öffnet WhatsApp mit vorausgefüllter Nachricht)
+- **Instagram-Button:** JA, gut sichtbar im Header (Icon), im Galerie-Bereich („Mehr auf Instagram“), in der Kontakt-Sektion und im Footer
 - **Öffnungszeiten:** Montag–Samstag 09:00–19:00 Uhr, Sonntag geschlossen
 - **Google-Bewertung:** 4,4 Sterne aus 27 Bewertungen (als dynamisch änderbaren Wert in einer Config-Datei ablegen, nicht hart im Text)
 - **Instagram:** https://www.instagram.com/beauty_salon_nail_passau/
 - **Google Maps:** https://maps.app.goo.gl/5yvkA2oNBNos3DEX6
-- **Domain:** [z. B. beautysalon-nail-passau.de]
+- **Domain:** Erst einmal die kostenlose Cloudflare-Adresse (`*.workers.dev` bzw. `*.pages.dev`). Eine eigene Domain kommt eventuell später. Domain deshalb zentral in einer Config-Datei (`site` in `astro.config`) ablegen, damit sie mit einer Änderung umgestellt werden kann. Canonical-URLs, Sitemap und OG-Tags müssen sich danach richten.
 
 ## 2. Positionierung (abgeleitet aus echten Kundenbewertungen)
 
@@ -29,7 +31,7 @@ Diese Stärken nennen Kundinnen immer wieder – sie sind der rote Faden für al
 - **Faire Preise**, jede Farbe und jedes Design möglich, Beratung zu aktuellen Trends
 - **Wimpernverlängerung** wird ebenfalls angeboten
 - **Persönlich geführt:** Huong Pham arbeitet selbst am Tisch (weißer Kittel, Handschuhe, also professionell und hygienisch). Das gehört in den „Über mich"-Bereich.
-- **Riesige Farbauswahl:** Auf Instagram sieht man viele Farbkarten mit Hunderten Gel-Farben (Glitzer, Cat-Eye, Jelly, Rot-Töne, Grün-/Blau-Töne, Nude). Das ist ein eigener Vorteil: „Über 500 Farben zur Auswahl" [Zahl bestätigen lassen, sonst „große Farbauswahl"]
+- **Riesige Farbauswahl:** Auf Instagram sieht man viele Farbkarten mit Hunderten Gel-Farben (Glitzer, Cat-Eye, Jelly, Rot-Töne, Grün-/Blau-Töne, Nude). Das ist ein eigener Vorteil. Formulierung: „Riesige Farbauswahl – Hunderte Farben von Nude bis Glitzer“ (keine exakte Zahl nennen)
 - **Nail Art auf hohem Niveau:** Blumenmotive (auch 3D), French in vielen Varianten (klassisch, Farbe, Swirl/Wellen), Gold- und Chrome-Linien, Ombré/Babyboomer, Steinchen und Saison-Designs (Weihnachten, Valentinstag)
 
 Texte selbst formulieren (keine Bewertungen wörtlich kopieren, außer im Bewertungsbereich mit Erlaubnis). Tonalität: warm, persönlich, Du-Form, kurz und hochwertig. Sprache: Deutsch.
@@ -43,7 +45,6 @@ Die Preisliste liegt noch nicht vor und wird später nachgereicht. Lege deshalb 
 - Maniküre
 - Pediküre (mit/ohne Shellac)
 - Wimpernverlängerung (Neuset, Auffüllen)
-- [weitere: Augenbrauen? Kosmetik?]
 
 ## 4. Seitenstruktur (One-Pager + Rechtsseiten)
 
@@ -53,10 +54,10 @@ Die Preisliste liegt noch nicht vor und wird später nachgereicht. Lege deshalb 
 3b. **Farbauswahl-Band:** schmale Sektion mit den 4 Farbkarten-Bildern (`farben/`) als horizontaler Streifen/Slider: „Hunderte Farben – von Nude bis Glitzer"
 4. **Leistungen & Preise:** übersichtliche Karten oder Tabs (Nägel / Füße / Wimpern)
 5. **Galerie „Unsere Arbeiten":** Bilder aus `src/assets/bilder/galerie/`, Filter-Chips (Alle / French / Blumen & Art / Natur & Nude / Saison), Lightbox, am Ende Link „Mehr auf Instagram"
-6. **Über mich – Huong Pham:** Foto `studio/inhaberin-huong-pham` groß, daneben persönlicher Text in Ich-Form (warm, kurz; nichts erfinden außer allgemeiner Leidenschaft für Nägel – Erfahrung/Jahre als [PLATZHALTER]). Darunter zwei kleinere Bilder `studio/studio-arbeitsplatz` und `studio/studio-lackregal-gold` als Einblick ins Studio
+6. **Über mich – Huong Pham:** Foto `studio/inhaberin-huong-pham` groß, daneben persönlicher Text in Ich-Form (warm, kurz, angelehnt an ihre Instagram-Vorstellung „Hallo ihr Lieben! Ich heiße Huong Pham und liebe es, eure Nägel zu …“; keine Jahreszahlen, Ausbildungen oder Zertifikate erfinden). Darunter zwei kleinere Bilder `studio/studio-arbeitsplatz` und `studio/studio-lackregal-gold` als Einblick ins Studio
 7. **Bewertungen:** 3–4 ausgewählte Kundenstimmen (nur positive, echte, gekürzt), Sternbewertung, Link „Alle Bewertungen auf Google"
-8. **Öffnungszeiten & Anfahrt:** Zeiten, Adresse, Karte (siehe Datenschutz unten), Hinweis zu Parken/ÖPNV [ergänzen]
-9. **Kontakt / Termin:** Anrufen, WhatsApp, optional Kontaktformular [Ja/Nein]
+8. **Öffnungszeiten & Anfahrt:** Zeiten (heutiger Tag hervorgehoben), Adresse, Karte (siehe Datenschutz unten), Button „Route planen“ (Link zu Google Maps). Allgemeiner Hinweis „Mitten in der Passauer Innenstadt“, keine erfundenen Parkplatz- oder Busangaben
+9. **Kontakt / Termin:** große Buttons „Anrufen“, „WhatsApp“, „Instagram“. **Kein** Kontaktformular (braucht Backend und Datenschutz-Aufwand; WhatsApp und Telefon reichen)
 10. **Footer:** Kontakt, Instagram, Impressum, Datenschutz
 11. Seiten **/impressum** und **/datenschutz** (Platzhaltertexte klar markieren, nicht erfinden)
 
@@ -139,16 +140,17 @@ Zuordnung für die Galerie-Filter: French = `french-*`, `babyblau-swirl-french`,
 
 ## 10. Deployment: GitHub → Cloudflare
 
-1. Git-Repository initialisieren, sinnvolle `.gitignore`, README mit Anleitung
-2. Das GitHub-Repo existiert bereits: **https://github.com/9m526k6995-droid/Beauty-Salon-and-Nails** (öffentlich). Klonen bzw. als Remote setzen, vorhandene Dateien im Repo prüfen und nicht blind überschreiben, dann auf `main` pushen
+1. Das GitHub-Repo existiert bereits und du arbeitest darin: **https://github.com/9m526k6995-droid/Beauty-Salon-and-Nails**. Es enthält schon `PROMPT.md`, `README.md` und `src/assets/bilder/`. Diese Dateien behalten, das Astro-Projekt drumherum aufbauen (nicht in einen Unterordner), sinnvolle `.gitignore`, README um eine Anleitung ergänzen
+2. Alles committen und auf `main` pushen
 3. Deployment auf Cloudflare mit automatischem Build bei jedem Push auf `main`:
    - Nutze den aktuell von Cloudflare empfohlenen Weg für statische Seiten (Workers mit Static Assets bzw. Pages) und lege die nötige Konfiguration an (`wrangler.jsonc` o. ä.)
    - Build-Befehl `npm run build`, Output `dist`
-4. Schritt-für-Schritt-Anleitung für mich: Cloudflare-Dashboard → GitHub verbinden → Repo wählen → Custom Domain verbinden
+4. Schritt-für-Schritt-Anleitung für mich, sehr einfach und kurz: Cloudflare-Konto → Workers & Pages → GitHub verbinden → dieses Repo wählen → Build-Einstellungen → Deploy → kostenlose Adresse öffnen. Danach in 3 Sätzen, wie man später eine eigene Domain verbindet
 5. Security-Header (z. B. `_headers`-Datei) und Weiterleitung www → ohne www
 
 ## 11. Arbeitsweise
 
-- Stelle mir zuerst kurz deinen Plan vor (Struktur, Farbwahl, Komponenten), dann bau.
-- Frag nach, wenn Infos fehlen – erfinde keine Preise, Namen, Zertifikate oder Bewertungen.
-- Teste am Ende Build, Mobil-Ansicht und Links; gib mir eine Liste mit allem, was ich noch ausfüllen muss (Platzhalter).
+- **Keine Rückfragen.** Alle nötigen Angaben stehen in diesem Prompt. Triff fehlende Detailentscheidungen selbst im Sinne eines hochwertigen Ergebnisses und bau die komplette Website in einem Durchgang.
+- Erfinde trotzdem keine Fakten: keine Preise, Zertifikate, Jahreszahlen oder Bewertungen. Wo etwas fehlt, gibt es die oben beschriebenen Lösungen („auf Anfrage“ usw.).
+- Impressum/Datenschutz: mit den bekannten Daten (Huong Pham, Beauty Salon & Nails, Theresienstraße 32, 94032 Passau, Telefon) vorausfüllen. Was nur die Inhaberin wissen kann (z. B. E-Mail, USt-IdNr.), deutlich gelb markiert als „bitte ergänzen“ lassen.
+- Teste am Ende Build (`npm run build`), Mobil-Ansicht und alle Links. Gib mir zum Schluss eine kurze Zusammenfassung: was gebaut wurde, die Cloudflare-Anleitung und die Liste der Dinge, die später nachgetragen werden können (Preise, E-Mail fürs Impressum, bessere Originalfotos).
